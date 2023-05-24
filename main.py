@@ -1,15 +1,6 @@
-from dotenv import load_dotenv
-import mysql.connector as conn
 import os
 
 clear = lambda: os.system('cls')
-load_dotenv()
-mydb = conn.connect(
-    host="localhost",
-    user=os.getenv("user"),
-    password=os.getenv("password"),
-    database=os.getenv("database")
-) 
 
 menu_principal = """
 Menu Principal
