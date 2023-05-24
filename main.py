@@ -79,15 +79,69 @@ def listar():
         else:
             print("Opção inválida")
 
+def atualizar():
+    print("\nSelecione o que atualizar...")
+    while opcao :=input(menu_opcoes)) !=8:
+            if opcao == "1":
+                pass
+            elif opcao == "2":
+                pass
+            elif opcao == "3":
+                pass
+            elif opcao == "4":
+                pass
+            elif opcao == "5":
+                pass
+            elif opcao == "6":
+                pass
+            elif opcao == "7":
+                pass
+            else:
+                print("Opcão inválida")
+                
+def excluir():
+    print("\nSelecione o que deseja excluir...")
+    while opcao :=input(menu_opcoes)) !=8:
+            if opcao == "1":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+             elif opcao == "2":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+             elif opcao == "3":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+             elif opcao == "4":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+              elif opcao == "5":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+              elif opcao == "6":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+              elif opcao == "7":
+                exc = input("Deseja mesmo excluir? S/N")
+                if (exc == "S"):
+                    pass
+              else:
+                print("Opção inválida")
+                
 while (opcao := input(menu_principal)) != "6":
     if opcao == "1":
         cadastro()
     elif opcao == "2":
         listar()
     elif opcao == "3":
-        pass
+        atualizar()
     elif opcao == "4":
-        pass
+        excluir()
     elif opcao == "5":
         pass
     else:
