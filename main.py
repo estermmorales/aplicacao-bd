@@ -1,18 +1,23 @@
-import os
-
-clear = lambda: os.system('cls')
-
+import database as db
+import time
 menu_principal = """
-Menu Principal
-Selecione uma opção
-1) Cadastrar
-2) Exibir
-3) Atualizar
-4) Excluir
-5) Consultas avançadas
-6) Sair
-"""
+---------CENTRO DE DISTRIBUIÇÃO----------
+Selecione uma opção...
 
+1) Criar tabelas
+2) Deletar tabelas
+----------------OPERAÇÕES----------------
+3) Inserir
+4) Exibir
+5) Atualizar
+6) Excluir
+------------------------------------------
+7) Consultas avançadas
+------------------------------------------
+8) Sair
+------------------------------------------
+Sua opção: 
+"""
 menu_opcoes = """
 1) Loja
 2) Agência
@@ -21,11 +26,14 @@ menu_opcoes = """
 5) Funcionario
 6) Usuário
 7) Protocolo
+----------------------------------------
 8) Cancelar
+----------------------------------------
+Sua opção: 
 """
 
 def cadastro():
-    print("\nCadastrar novo(a)...")
+    print("\n----------------INSERIR----------------")
     while (opcao := input(menu_opcoes)) != "8":
         if opcao == "1":
             pass
@@ -46,42 +54,28 @@ def cadastro():
 
 
 def listar():
-    print("\nSelecione o que exibir...")
+    print("\n----------------EXIBIR----------------")
     while (opcao := input(menu_opcoes)) != "8":
         if opcao == "1":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "Sim"):
-                pass
+            pass
         elif opcao == "2":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "S"):
-                pass
+            pass
         elif opcao == "3":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "S"):
-                pass
+            pass
         elif opcao == "4":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "S"):
-                pass
+            pass
         elif opcao == "5":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "S"):
-                pass
+            pass
         elif opcao == "6":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "S"):
-                pass
+            pass
         elif opcao == "7":
-            filtro = input("Deseja filtrar? S/N ")
-            if (filtro == "S"):
-                pass
+            pass
         else:
             print("Opção inválida")
 
 def atualizar():
-    print("\nSelecione o que atualizar...")
-    while opcao :=input(menu_opcoes)) !=8:
+    print("\n----------------ATUALIZAR----------------")
+    while (opcao :=input(menu_opcoes)) !=8:
             if opcao == "1":
                 pass
             elif opcao == "2":
@@ -100,51 +94,55 @@ def atualizar():
                 print("Opcão inválida")
                 
 def excluir():
-    print("\nSelecione o que deseja excluir...")
-    while opcao :=input(menu_opcoes)) !=8:
+    print("\n----------------EXCLUIR----------------")
+    while (opcao :=input(menu_opcoes)) !=8:
             if opcao == "1":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-             elif opcao == "2":
+            elif opcao == "2":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-             elif opcao == "3":
+            elif opcao == "3":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-             elif opcao == "4":
+            elif opcao == "4":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-              elif opcao == "5":
+            elif opcao == "5":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-              elif opcao == "6":
+            elif opcao == "6":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-              elif opcao == "7":
+            elif opcao == "7":
                 exc = input("Deseja mesmo excluir? S/N")
                 if (exc == "S"):
                     pass
-              else:
+            else:
                 print("Opção inválida")
                 
-while (opcao := input(menu_principal)) != "6":
+while (opcao := input(menu_principal)) != "8":
     if opcao == "1":
-        cadastro()
+        db.create_all_tables()
+        time.sleep(1.5)
     elif opcao == "2":
-        listar()
+        db.drop_all_tables()
+        time.sleep(1.5)
     elif opcao == "3":
-        atualizar()
+        cadastro()
     elif opcao == "4":
-        excluir()
+        listar()
     elif opcao == "5":
+        atualizar()
+    elif opcao == "6":
+        excluir()
+    elif opcao == "7":
         pass
     else:
         print("Opção inválida")
-
-
