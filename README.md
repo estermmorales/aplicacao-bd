@@ -12,5 +12,4 @@ user="seu_user_aqui"
 password="sua_senha_aqui"
 database="sua_database_aqui"
 ```
-
 ###### Desenvolvido por: Bruna, Elvio e Ester :D
