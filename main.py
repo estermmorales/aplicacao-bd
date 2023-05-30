@@ -5,16 +5,17 @@ menu_principal = """
 Selecione uma opção...
 
 1) Criar tabelas
-2) Deletar tabelas
+2) Inserir valores iniciais nas tabelas
+3) Deletar tabelas
 ----------------OPERAÇÕES----------------
-3) Inserir
-4) Exibir
-5) Atualizar
-6) Excluir
+4) Inserir
+5) Exibir
+6) Atualizar
+7) Excluir
 ------------------------------------------
-7) Consultas avançadas
+8) Consultas avançadas
 ------------------------------------------
-8) Sair
+9) Sair
 ------------------------------------------
 Sua opção: 
 """
@@ -57,19 +58,26 @@ def listar():
     print("\n----------------EXIBIR----------------")
     while (opcao := input(menu_opcoes)) != "8":
         if opcao == "1":
-            pass
+            db.read('loja')
+            time.sleep(1.5)
         elif opcao == "2":
-            pass
+            db.read('agencia')
+            time.sleep(1.5)
         elif opcao == "3":
-            pass
+            db.read('cliente')
+            time.sleep(1.5)
         elif opcao == "4":
-            pass
+            db.read('emitente_destinatario')
+            time.sleep(1.5)
         elif opcao == "5":
-            pass
+            db.read('funcionario')
+            time.sleep(1.5)
         elif opcao == "6":
-            pass
+            db.read('usuario')
+            time.sleep(1.5)
         elif opcao == "7":
-            pass
+            db.read('protocolo')
+            time.sleep(1.5)
         else:
             print("Opção inválida")
 
@@ -127,22 +135,25 @@ def excluir():
             else:
                 print("Opção inválida")
                 
-while (opcao := input(menu_principal)) != "8":
+while (opcao := input(menu_principal)) != "9":
     if opcao == "1":
         db.create_all_tables()
         time.sleep(1.5)
     elif opcao == "2":
-        db.drop_all_tables()
+        db.insert_on_tables()
         time.sleep(1.5)
     elif opcao == "3":
-        cadastro()
+        db.drop_all_tables()
+        time.sleep(1.5)
     elif opcao == "4":
-        listar()
+        cadastro()
     elif opcao == "5":
-        atualizar()
+        listar()
     elif opcao == "6":
-        excluir()
+        atualizar()
     elif opcao == "7":
+        excluir()
+    elif opcao == "8":
         pass
     else:
         print("Opção inválida")
