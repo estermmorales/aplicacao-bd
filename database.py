@@ -273,6 +273,13 @@ def update():
 
 def delete():
     pass
+#Consultas avançadas
 
-def consultas_avancadas():
+def consulta_avancada1():
+    pass
+
+def consulta_avancada2():
+    pass
+
+def consulta_avancada3():
     pass
