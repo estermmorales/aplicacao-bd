@@ -273,13 +273,35 @@ def update():
 
 def delete():
     pass
+
 #Consultas avançadas
 
-def consulta_avancada1():
-    pass
+#Gera a soma de volumes por usuário responsável
+def consulta_avancada1(table_name):
+    select query = """
+    select sum(pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, u.nome as RESPONSAVEL
+    FROM protocolo pt 
+    JOIN usuario u on pt.id_usuario_responsavel = u.id
+    join situacao s on pt.id_situacao = s.id
+    group by pt.id_usuario_responsavel;
+    """
+ 
+#Agrupa e soma os protocolos por destinatário  
+def consulta_avancada2(table_name):
+    select query = """
+    select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
+    FROM protocolo pt 
+    join pessoas pd on pd.id= pt.id_pessoa_destinatario
+    join situacao s on pt.id_situacao = s.id
+    group by pt.id_pessoa_remetente;
+    """ 
 
-def consulta_avancada2():
-    pass
-
-def consulta_avancada3():
-    pass
+#Agrupa os protocolos por situação
+def consulta_avancada3(table_name):
+    select query = """
+    select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
+    FROM protocolo pt 
+    join pessoas pd on pd.id= pt.id_pessoa_destinatario
+    join situacao s on pt.id_situacao = s.id
+    group by s.id;
+    """
