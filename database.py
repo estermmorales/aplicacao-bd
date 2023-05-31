@@ -276,32 +276,47 @@ def delete():
 
 #Consultas avançadas
 
-#Gera a soma de volumes por usuário responsável
-def consulta_avancada1(table_name):
-    select query = """
+def consulta_avancada1():
+    select = """
     select sum(pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, u.nome as RESPONSAVEL
     FROM protocolo pt 
     JOIN usuario u on pt.id_usuario_responsavel = u.id
     join situacao s on pt.id_situacao = s.id
     group by pt.id_usuario_responsavel;
     """
+    print("Consulta 1: Gera a soma de volumes por usuário responsável.")
+    cursor = mydb.cursor()
+    cursor.execute(select)
+    myresult = cursor.fetchall()
+    for x in myresult:
+        print(x)
  
-#Agrupa e soma os protocolos por destinatário  
-def consulta_avancada2(table_name):
-    select query = """
+def consulta_avancada2():
+    select = """
     select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
     FROM protocolo pt 
     join pessoas pd on pd.id= pt.id_pessoa_destinatario
     join situacao s on pt.id_situacao = s.id
     group by pt.id_pessoa_remetente;
     """ 
+    print("\nConsulta 2: Agrupa e soma os protocolos por destinatário .")
+    cursor = mydb.cursor()
+    cursor.execute(select)
+    myresult = cursor.fetchall()
+    for x in myresult:
+        print(x)
 
-#Agrupa os protocolos por situação
-def consulta_avancada3(table_name):
-    select query = """
+def consulta_avancada3():
+    select = """
     select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
     FROM protocolo pt 
     join pessoas pd on pd.id= pt.id_pessoa_destinatario
     join situacao s on pt.id_situacao = s.id
     group by s.id;
     """
+    print("\nConsulta 3: Agrupa os protocolos por situação.")
+    cursor = mydb.cursor()
+    cursor.execute(select)
+    myresult = cursor.fetchall()
+    for x in myresult:
+        print(x)
