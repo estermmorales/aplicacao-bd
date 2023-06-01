@@ -36,7 +36,7 @@ menu_consultas_avancadas = """
 ----------CONSULTAS AVANÇADAS------------
 1) Gerar a soma de volumes por usuário responsável
 2) Agrupar e soma os protocolos por destinatário
-3) Agrupa os protocolos por situação
+3) Agrupar os protocolos por situação
 ----------------------------------------
 4) Cancelar
 ----------------------------------------

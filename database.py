@@ -275,9 +275,17 @@ def delete():
     pass
 
 #Consultas avançadas
+on_full_group_by = """
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+"""
+on_full_group_by_enabled = False
 
 def consulta_avancada1():
+    global on_full_group_by_enabled 
     cursor = mydb.cursor()
+    if on_full_group_by_enabled == False:
+        cursor.execute(on_full_group_by)
+        on_full_group_by_enabled = True
     select = """
     select sum(pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, u.nome as RESPONSAVEL
     FROM protocolo pt 
@@ -287,11 +295,16 @@ def consulta_avancada1():
     """
     cursor.execute(select)
     myresult = cursor.fetchall()
+    print("Gera a soma de volumes por usuário responsável")
     for x in myresult:
-        print(x)
+        print(f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
  
 def consulta_avancada2():
+    global on_full_group_by_enabled
     cursor = mydb.cursor()
+    if on_full_group_by_enabled == False:
+        cursor.execute(on_full_group_by)
+        on_full_group_by_enabled = True
     select = """
     select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
     FROM protocolo pt 
@@ -301,11 +314,16 @@ def consulta_avancada2():
     """ 
     cursor.execute(select)
     myresult = cursor.fetchall()
+    print("Agrupa e soma os protocolos por destinatário")
     for x in myresult:
-        print(x)
+        print(f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
 
 def consulta_avancada3():
+    global on_full_group_by_enabled 
     cursor = mydb.cursor()
+    if on_full_group_by_enabled == False:
+        cursor.execute(on_full_group_by)
+        on_full_group_by_enabled = True
     select = """
     select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
     FROM protocolo pt 
@@ -314,6 +332,7 @@ def consulta_avancada3():
     group by s.id;
     """
     cursor.execute(select)
+    print("Agrupa os protocolos por situação")
     myresult = cursor.fetchall()
     for x in myresult:
-        print(x)
+        print(f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
