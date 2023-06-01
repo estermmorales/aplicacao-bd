@@ -182,10 +182,9 @@ inserts = {
         INSERT INTO `pessoas` VALUES (1,'João da Silva',NULL,2,NULL,NULL,NULL,4899898,'joaosadilva@gmail.com'),(2,'Bela Maria',3,NULL,NULL,NULL,NULL,4899898,'belamaria@gmail.com'),(3,'Correios',NULL,NULL,NULL,NULL,2,4899898,'correios@gmail.com'),(4,'Jorgete Souza',NULL,NULL,4,NULL,NULL,4899898,'jorgete@gmail.com'),(5,'Zezinho Turismo',NULL,NULL,NULL,3,NULL,4899898,'zezinhotur@gmail.com'),(6,'Marilia Costa',NULL,3,NULL,NULL,NULL,4899898,'mariliacosta@gmail.com'),(7,'Francisco Mendes',NULL,4,NULL,NULL,NULL,4899898,'joaosadilva@gmail.com'),(8,'Gata Dengosa',8,NULL,NULL,NULL,NULL,48999655555,'gatadengosa@gmail.com'),(9,'Xiquita Bacana',2,NULL,NULL,NULL,NULL,48999991111,'xiquitabacana@gmail.com'),(10,'Gata Malhada',4,NULL,NULL,NULL,NULL,48999222222,'gatamalhada@mail.com'),(11,'Gata Ousada',5,NULL,NULL,NULL,NULL,48999993323,'gataousada@gmail.com'),(12,'Mais Mulher',6,NULL,NULL,NULL,NULL,4888882222,'mailmulher@gmail.com'),(13,'Eu Fashion ',7,NULL,NULL,NULL,NULL,48955555555,'eeufashion@gmail.com'),(14,'DuHomem',9,NULL,NULL,NULL,NULL,4888778877,'duhomem@gmail.com'),(15,'Casa Show',10,NULL,NULL,NULL,NULL,48922222222,'casashow@gmail.com'),(16,'Julia Maria',NULL,5,NULL,NULL,NULL,48999221122,'juliamaria@gmail.com'),(17,'Simão Tur',NULL,NULL,NULL,1,NULL,48999885555,'simaotur@gmail.com'),(18,'Mari Tur',NULL,NULL,NULL,2,NULL,48988558855,'maritur@gmail.com'),(19,'Laci Tur',NULL,NULL,NULL,4,NULL,48988778877,'lacitur@gmail.com'),(20,'Vagens da Zo',NULL,NULL,NULL,5,NULL,48955336666,'viagenszo@gmail.com'),(21,'Expresso São Miguel',NULL,NULL,NULL,NULL,3,48999995566,'saomiguel@gmail.com'),(22,'Bauer Transportes',NULL,NULL,NULL,NULL,4,4888888888,'bauertur@gmail.com'),(23,'ifood',NULL,NULL,NULL,NULL,5,4822332233,'ifood@gmail.com'),(24,'Marmitex da Ana',NULL,NULL,NULL,NULL,6,48955225522,'marmitexana@gmail.com'),(25,'Jessica Regina',NULL,NULL,2,NULL,NULL,48925556555,'jessia@gmail.com.br'),(26,'João Mendes',NULL,NULL,3,NULL,NULL,48954666966,'joao@gmail.com'),(27,'Juca Luan',NULL,NULL,5,NULL,NULL,4899889988,'juca@gmail.com'),(28,'Marlize Joaquim',NULL,NULL,6,NULL,NULL,4965666555,'marlize@gmail.com');
         """
     ),
-    #Dando erro em dt_retirada
-    'protocolo': (
+    'usuario': (
         """
-        INSERT INTO `protocolo` VALUES (1,1,1,NULL,1,'2023-05-24 19:02:00','0000-00-00 00:00:00',2,4),(2,1,1,NULL,1,'2023-05-24 19:02:00','0000-00-00 00:00:00',2,3),(3,2,2,NULL,3,'2023-05-25 13:43:10','0000-00-00 00:00:00',3,2),(4,1,2,NULL,2,'2023-05-25 13:43:10','0000-00-00 00:00:00',4,3);
+        INSERT INTO `usuario` VALUES (1,'ana','ana',1),(2,'maria','maria',2),(3,'julia','julia',3),(4,'carol','carol',4),(5,'fernanda','fernanda',2),(6,'jessi','jessi',3),(7,'gustavo','gustavo',2);
         """
     ),
     'situacao': (
@@ -193,9 +192,10 @@ inserts = {
         INSERT INTO `situacao` VALUES (1,'PENDENTE'),(2,'RETIRADO'),(3,'CANCELADO');
         """
     ),
-    'usuario': (
+    #Dando erro em dt_retirada
+    'protocolo': (
         """
-        INSERT INTO `usuario` VALUES (1,'ana','ana',1),(2,'maria','maria',2),(3,'julia','julia',3),(4,'carol','carol',4),(5,'fernanda','fernanda',2),(6,'jessi','jessi',3),(7,'gustavo','gustavo',2);
+        INSERT INTO `protocolo` VALUES (1,1,1,NULL,1,'2023-05-24 19:02:00',NULL,2,4),(2,1,1,NULL,1,'2023-05-24 19:02:00',NULL,2,3),(3,2,2,NULL,3,'2023-05-25 13:43:10',NULL,3,2),(4,1,2,NULL,2,'2023-05-25 13:43:10',NULL,4,3);
         """
     )
     }
@@ -277,6 +277,7 @@ def delete():
 #Consultas avançadas
 
 def consulta_avancada1():
+    cursor = mydb.cursor()
     select = """
     select sum(pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, u.nome as RESPONSAVEL
     FROM protocolo pt 
@@ -284,14 +285,13 @@ def consulta_avancada1():
     join situacao s on pt.id_situacao = s.id
     group by pt.id_usuario_responsavel;
     """
-    print("Consulta 1: Gera a soma de volumes por usuário responsável.")
-    cursor = mydb.cursor()
     cursor.execute(select)
     myresult = cursor.fetchall()
     for x in myresult:
         print(x)
  
 def consulta_avancada2():
+    cursor = mydb.cursor()
     select = """
     select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
     FROM protocolo pt 
@@ -299,14 +299,13 @@ def consulta_avancada2():
     join situacao s on pt.id_situacao = s.id
     group by pt.id_pessoa_remetente;
     """ 
-    print("\nConsulta 2: Agrupa e soma os protocolos por destinatário .")
-    cursor = mydb.cursor()
     cursor.execute(select)
     myresult = cursor.fetchall()
     for x in myresult:
         print(x)
 
 def consulta_avancada3():
+    cursor = mydb.cursor()
     select = """
     select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
     FROM protocolo pt 
@@ -314,8 +313,6 @@ def consulta_avancada3():
     join situacao s on pt.id_situacao = s.id
     group by s.id;
     """
-    print("\nConsulta 3: Agrupa os protocolos por situação.")
-    cursor = mydb.cursor()
     cursor.execute(select)
     myresult = cursor.fetchall()
     for x in myresult:

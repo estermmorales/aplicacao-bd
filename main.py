@@ -32,7 +32,16 @@ menu_opcoes = """
 ----------------------------------------
 Sua opção: 
 """
-
+menu_consultas_avancadas = """
+----------CONSULTAS AVANÇADAS------------
+1) Gerar a soma de volumes por usuário responsável
+2) Agrupar e soma os protocolos por destinatário
+3) Agrupa os protocolos por situação
+----------------------------------------
+4) Cancelar
+----------------------------------------
+Sua opção: 
+"""
 def cadastro():
     print("\n----------------INSERIR----------------")
     while (opcao := input(menu_opcoes)) != "8":
@@ -134,6 +143,18 @@ def excluir():
                     pass
             else:
                 print("Opção inválida")
+
+def consultas_avançadas():
+    while (opcao :=input(menu_consultas_avancadas)) !=4:
+        if opcao == "1":
+            db.consulta_avancada1()
+        elif opcao == "2":
+            db.consulta_avancada2()
+        elif opcao == "3":
+            db.consulta_avancada3()
+        else:
+            print("Opção inválida")
+
                 
 while (opcao := input(menu_principal)) != "9":
     if opcao == "1":
@@ -154,6 +175,6 @@ while (opcao := input(menu_principal)) != "9":
     elif opcao == "7":
         excluir()
     elif opcao == "8":
-        pass
+        consultas_avançadas()
     else:
         print("Opção inválida")
