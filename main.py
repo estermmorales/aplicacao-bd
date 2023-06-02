@@ -145,7 +145,7 @@ def excluir():
                 print("Opção inválida")
 
 def consultas_avançadas():
-    while (opcao :=input(menu_consultas_avancadas)) !=4:
+    while (opcao :=input(menu_consultas_avancadas)) != "4":
         if opcao == "1":
             db.consulta_avancada1()
         elif opcao == "2":
