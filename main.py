@@ -1,5 +1,6 @@
 import database as db
 import time
+
 menu_principal = """
 ---------CENTRO DE DISTRIBUIÇÃO----------
 Selecione uma opção...
@@ -42,6 +43,8 @@ menu_consultas_avancadas = """
 ----------------------------------------
 Sua opção: 
 """
+
+
 def cadastro():
     print("\n----------------INSERIR----------------")
     while (opcao := input(menu_opcoes)) != "8":
@@ -90,62 +93,65 @@ def listar():
         else:
             print("Opção inválida")
 
+
 def atualizar():
     print("\n----------------ATUALIZAR----------------")
-    while (opcao :=input(menu_opcoes)) !=8:
-            if opcao == "1":
-                pass
-            elif opcao == "2":
-                pass
-            elif opcao == "3":
-                pass
-            elif opcao == "4":
-                pass
-            elif opcao == "5":
-                pass
-            elif opcao == "6":
-                pass
-            elif opcao == "7":
-                pass
-            else:
-                print("Opcão inválida")
-                
+    while (opcao := input(menu_opcoes)) != 8:
+        if opcao == "1":
+            pass
+        elif opcao == "2":
+            pass
+        elif opcao == "3":
+            pass
+        elif opcao == "4":
+            pass
+        elif opcao == "5":
+            pass
+        elif opcao == "6":
+            pass
+        elif opcao == "7":
+            pass
+        else:
+            print("Opcão inválida")
+
+
 def excluir():
     print("\n----------------EXCLUIR----------------")
-    while (opcao :=input(menu_opcoes)) !=8:
-            if opcao == "1":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            elif opcao == "2":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            elif opcao == "3":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            elif opcao == "4":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            elif opcao == "5":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            elif opcao == "6":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            elif opcao == "7":
-                exc = input("Deseja mesmo excluir? S/N")
-                if (exc == "S"):
-                    pass
-            else:
-                print("Opção inválida")
+    while (opcao := input(menu_opcoes)) != 8:
+        if opcao == "1":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        elif opcao == "2":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        elif opcao == "3":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        elif opcao == "4":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        elif opcao == "5":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        elif opcao == "6":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        elif opcao == "7":
+            exc = input("Deseja mesmo excluir? S/N")
+            if (exc == "S"):
+                pass
+        else:
+            print("Opção inválida")
+
 
 def consultas_avançadas():
-    while (opcao :=input(menu_consultas_avancadas)) != "4":
+    while (opcao := input(menu_consultas_avancadas)) != "4":
         if opcao == "1":
             db.consulta_avancada1()
         elif opcao == "2":
@@ -155,7 +161,7 @@ def consultas_avançadas():
         else:
             print("Opção inválida")
 
-                
+
 while (opcao := input(menu_principal)) != "9":
     if opcao == "1":
         db.create_all_tables()

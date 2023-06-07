@@ -3,6 +3,7 @@ import mysql.connector as conn
 from mysql.connector import errorcode
 import os
 
+# Conexão com o banco de dados
 load_dotenv()
 try:
     mydb = conn.connect(
@@ -11,112 +12,110 @@ try:
         password=os.getenv("password"),
         database="centro_de_distribuicao",
         autocommit=False
-    ) 
+    )
 except conn.Error as error:
     print("Erro ao se conectar ao banco de dados {}".format(error))
 
 # Criação das tabelas
 tables = {}
 tables['agencia'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`agencia` (
-  `Documento` DECIMAL(10,0) NULL DEFAULT NULL,
-  `id` INT(11) NOT NULL,
+CREATE TABLE `agencia` (
+  `Documento` double DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `Dcumento` (`Documento` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `Dcumento` (`Documento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['cliente'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`cliente` (
-  `documento` DOUBLE NULL DEFAULT NULL,
-  `id` INT(11) NOT NULL,
+CREATE TABLE `cliente` (
+  `documento` double DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `documento` (`documento` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `documento` (`documento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['emitente_destinatario'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`emitente_destinatario` (
-  `documento` DOUBLE NULL DEFAULT NULL,
-  `id` INT(11) NOT NULL,
+CREATE TABLE `emitente_destinatario` (
+  `documento` double DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `documento` (`documento` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `documento` (`documento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['funcionario'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`funcionario` (
-  `documento` DOUBLE NULL DEFAULT NULL,
-  `id` INT(11) NOT NULL,
+CREATE TABLE `funcionario` (
+  `documento` double DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `documento` (`documento` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `documento` (`documento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['loja'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`loja` (
-  `documento` DOUBLE NULL DEFAULT NULL,
-  `id` INT(11) NOT NULL,
+CREATE TABLE `loja` (
+  `documento` varchar(14) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `documento` (`documento` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `documento` (`documento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['perfil'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`perfil` (
-  `id` INT(11) NOT NULL,
-  `id_permissao` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `perfil` (
+  `id` int(11) NOT NULL,
+  `id_permissao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['permissoes'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`permissoes` (
-  `id` INT(11) NOT NULL,
-  `Nome` VARCHAR(40) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `permissoes` (
+  `id` int(11) NOT NULL,
+  `Nome` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['pessoas'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`pessoas` (
-  `id` INT(11) NOT NULL,
-  `Nome` VARCHAR(40) NULL DEFAULT NULL,
-  `id_loja` INT(11) NULL DEFAULT NULL,
-  `id_cliente` INT(11) NULL DEFAULT NULL,
-  `id_funcionario` INT(11) NULL DEFAULT NULL,
-  `id_agencia` INT(11) NULL DEFAULT NULL,
-  `id_remetente_destinatario` INT(11) NULL DEFAULT NULL,
-  `telefone` DOUBLE NULL DEFAULT NULL,
-  `e_mail` VARCHAR(40) NULL DEFAULT NULL,
+CREATE TABLE `pessoas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Nome` varchar(40) DEFAULT NULL,
+  `id_loja` int(11) DEFAULT NULL,
+  `id_cliente` int(11) DEFAULT NULL,
+  `id_funcionario` int(11) DEFAULT NULL,
+  `id_agencia` int(11) DEFAULT NULL,
+  `id_remetente_destinatario` int(11) DEFAULT NULL,
+  `telefone` double DEFAULT NULL,
+  `e_mail` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK_pessoas_2` (`id_remetente_destinatario` ASC) VISIBLE,
-  INDEX `FK_pessoas_3` (`id_funcionario` ASC) VISIBLE,
-  INDEX `FK_pessoas_4` (`id_cliente` ASC) VISIBLE,
-  INDEX `FK_pessoas_5` (`id_loja` ASC) VISIBLE,
-  INDEX `FK_pessoas_6` (`id_agencia` ASC) VISIBLE,
-  CONSTRAINT `FK_pessoas_2`
-    FOREIGN KEY (`id_remetente_destinatario`)
-    REFERENCES `centro_de_distribuicao`.`emitente_destinatario` (`id`),
-  CONSTRAINT `FK_pessoas_3`
-    FOREIGN KEY (`id_funcionario`)
-    REFERENCES `centro_de_distribuicao`.`funcionario` (`id`),
-  CONSTRAINT `FK_pessoas_4`
-    FOREIGN KEY (`id_cliente`)
-    REFERENCES `centro_de_distribuicao`.`cliente` (`id`),
-  CONSTRAINT `FK_pessoas_5`
-    FOREIGN KEY (`id_loja`)
-    REFERENCES `centro_de_distribuicao`.`loja` (`id`),
-  CONSTRAINT `FK_pessoas_6`
-    FOREIGN KEY (`id_agencia`)
-    REFERENCES `centro_de_distribuicao`.`agencia` (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `id_loja_idx` (`id_loja`),
+  KEY `id_emitente_destinatario_idx` (`id_remetente_destinatario`),
+  KEY `id_funcionario_idx` (`id_funcionario`),
+  KEY `id_cliene_idx` (`id_cliente`),
+  KEY `id_agencia_idx` (`id_agencia`),
+  CONSTRAINT `id_agencia` FOREIGN KEY (`id_agencia`) REFERENCES `agencia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_emitente_destinatario` FOREIGN KEY (`id_remetente_destinatario`) REFERENCES `emitente_destinatario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_funcionario` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_loja` FOREIGN KEY (`id_loja`) REFERENCES `loja` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['usuario'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`usuario` (
-  `id` INT(11) NOT NULL,
-  `nome` VARCHAR(40) NULL DEFAULT NULL,
-  `senha` VARCHAR(40) NULL DEFAULT NULL,
-  `id_perfil` INT(11) NULL DEFAULT NULL,
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(40) DEFAULT NULL,
+  `senha` varchar(40) DEFAULT NULL,
+  `id_perfil` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `usuario_perfil` (`id_perfil` ASC) VISIBLE,
-  CONSTRAINT `usuario_perfil`
-    FOREIGN KEY (`id_perfil`)
-    REFERENCES `centro_de_distribuicao`.`perfil` (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `usuario_perfil` (`id_perfil`),
+  CONSTRAINT `usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['situacao'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`situacao` (
-  `id` INT(11) NOT NULL,
-  `Nome` VARCHAR(40) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `situacao` (
+  `id` int(11) NOT NULL,
+  `Nome` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
 tables['protocolo'] = """
-CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`protocolo` (
+CREATE TABLE `protocolo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `qtd_volumes` int(11) DEFAULT NULL,
   `id_usuario_responsavel` int(11) DEFAULT NULL,
@@ -127,24 +126,26 @@ CREATE TABLE IF NOT EXISTS `centro_de_distribuicao`.`protocolo` (
   `id_pessoa_remetente` int(11) DEFAULT NULL,
   `id_pessoa_destinatario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Protocolo_2` (`id_usuario_responsavel`),
-  KEY `FK_Protocolo_3` (`id_situacao`),
-  KEY `id_pessoas_remetente` (`id_pessoa_remetente`),
-  KEY `id_pessoas_destinatario` (`id_pessoa_destinatario`),
-  CONSTRAINT `FK_Protocolo_2` FOREIGN KEY (`id_usuario_responsavel`) REFERENCES `usuario` (`id`),
-  CONSTRAINT `FK_Protocolo_3` FOREIGN KEY (`id_situacao`) REFERENCES `situacao` (`id`),
-  CONSTRAINT `id_pessoas_destinatario` FOREIGN KEY (`id_pessoa_destinatario`) REFERENCES `pessoas` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `id_pessoas_remetente` FOREIGN KEY (`id_pessoa_remetente`) REFERENCES `pessoas` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  KEY `situacao` (`id_situacao`),
+  KEY `id_pessoa_remetente_idx` (`id_pessoa_remetente`),
+  KEY `id_pessoa_destinatario_idx` (`id_pessoa_destinatario`),
+  KEY `id_usuario_idx` (`id_usuario_responsavel`),
+  CONSTRAINT `id_pessoa_destinatario` FOREIGN KEY (`id_pessoa_destinatario`) REFERENCES `pessoas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_pessoa_remetente` FOREIGN KEY (`id_pessoa_remetente`) REFERENCES `pessoas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario_responsavel`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `situacao` FOREIGN KEY (`id_situacao`) REFERENCES `situacao` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
+
 # Exclusão das tabelas
 drop_tables = """
 drop tables situacao, protocolo, pessoas, permissoes, perfil, loja, funcionario, emitente_destinatario, cliente, agencia, usuario;
 """
-#Inserir valores nas tabelas
+
+# Inserir valores nas tabelas
 inserts = {
     'agencia': (
-    """
+        """
     INSERT INTO `agencia` VALUES (1,1),(2,2),(3,3),(4,4),(5,5);
     """),
     'cliente': (
@@ -192,14 +193,15 @@ inserts = {
         INSERT INTO `situacao` VALUES (1,'PENDENTE'),(2,'RETIRADO'),(3,'CANCELADO');
         """
     ),
-    #Dando erro em dt_retirada
     'protocolo': (
         """
         INSERT INTO `protocolo` VALUES (1,1,1,NULL,1,'2023-05-24 19:02:00',NULL,2,4),(2,1,1,NULL,1,'2023-05-24 19:02:00',NULL,2,3),(3,2,2,NULL,3,'2023-05-25 13:43:10',NULL,3,2),(4,1,2,NULL,2,'2023-05-25 13:43:10',NULL,4,3);
         """
     )
-    }
-#Função para criar todas as tabelas
+}
+
+
+# Função para criar todas as tabelas
 def create_all_tables():
     try:
         cursor = mydb.cursor()
@@ -219,9 +221,10 @@ def create_all_tables():
         print("Ocorreu um erro durante o processamento {}.".format(error))
     finally:
         if mydb.is_connected():
-            cursor.close() 
+            cursor.close()
 
-#Função para excluir todas as tabelas
+
+# Função para excluir todas as tabelas
 def drop_all_tables():
     try:
         cursor = mydb.cursor()
@@ -233,8 +236,9 @@ def drop_all_tables():
         print("OK")
     finally:
         if mydb.is_connected():
-            cursor.close() 
- 
+            cursor.close()
+
+
 # Inserção dos valores nas tabelas
 def insert_on_tables():
     cursor = mydb.cursor()
@@ -250,9 +254,11 @@ def insert_on_tables():
     mydb.commit()
     cursor.close()
 
-#CRUD
+
+# CRUD
 def insert(table_name):
     pass
+
 
 def read(table_name):
     try:
@@ -268,13 +274,17 @@ def read(table_name):
             print(x)
     cursor.close()
 
+
 def update():
     pass
+
 
 def delete():
     pass
 
-#Consultas avançadas
+
+# Consultas avançadas
+# Caso dê erro ao rodar as consultas avançadas, use SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); no Workbench.
 def consulta_avancada1():
     cursor = mydb.cursor()
     select = """
@@ -288,8 +298,10 @@ def consulta_avancada1():
     myresult = cursor.fetchall()
     print("Gera a soma de volumes por usuário responsável")
     for x in myresult:
-        print(f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
- 
+        print(
+            f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
+
+
 def consulta_avancada2():
     cursor = mydb.cursor()
     select = """
@@ -298,12 +310,14 @@ def consulta_avancada2():
     join pessoas pd on pd.id= pt.id_pessoa_destinatario
     join situacao s on pt.id_situacao = s.id
     group by pt.id_pessoa_remetente;
-    """ 
+    """
     cursor.execute(select)
     myresult = cursor.fetchall()
     print("Agrupa e soma os protocolos por destinatário")
     for x in myresult:
-        print(f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+        print(
+            f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+
 
 def consulta_avancada3():
     cursor = mydb.cursor()
@@ -318,4 +332,5 @@ def consulta_avancada3():
     print("Agrupa os protocolos por situação")
     myresult = cursor.fetchall()
     for x in myresult:
-        print(f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+        print(
+            f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
