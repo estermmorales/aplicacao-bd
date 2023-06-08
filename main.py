@@ -45,23 +45,23 @@ Sua opção:
 """
 
 
-def cadastro():
+def inserir():
     print("\n----------------INSERIR----------------")
     while (opcao := input(menu_opcoes)) != "8":
         if opcao == "1":
-            pass
+            db.insert('loja')
         elif opcao == "2":
-            pass
+            db.insert('agencia')
         elif opcao == "3":
-            pass
+            db.insert('cliente')
         elif opcao == "4":
-            pass
+            db.insert('emitente_destinatario')
         elif opcao == "5":
-            pass
+            db.insert('funcionario')
         elif opcao == "6":
-            pass
+            db.insert('usuario')
         elif opcao == "7":
-            pass
+            db.insert('protocolo')
         else:
             print("Opção inválida")
 
@@ -96,56 +96,42 @@ def listar():
 
 def atualizar():
     print("\n----------------ATUALIZAR----------------")
-    while (opcao := input(menu_opcoes)) != 8:
+    while (opcao := input(menu_opcoes)) != "8":
         if opcao == "1":
-            pass
+            db.update('loja')
         elif opcao == "2":
-            pass
+            db.update('agencia')
         elif opcao == "3":
-            pass
+            db.update('cliente')
         elif opcao == "4":
-            pass
+            db.update('emitente_destinatario')
         elif opcao == "5":
-            pass
+            db.update('funcionario')
         elif opcao == "6":
-            pass
+            db.update('usuario')
         elif opcao == "7":
-            pass
+            db.update('protocolo')
         else:
             print("Opcão inválida")
 
 
 def excluir():
     print("\n----------------EXCLUIR----------------")
-    while (opcao := input(menu_opcoes)) != 8:
+    while (opcao := input(menu_opcoes)) != "8":
         if opcao == "1":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('loja')
         elif opcao == "2":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('agencia')
         elif opcao == "3":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('cliente')
         elif opcao == "4":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('emitente_destinatario')
         elif opcao == "5":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('funcionario')
         elif opcao == "6":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('usuario')
         elif opcao == "7":
-            exc = input("Deseja mesmo excluir? S/N")
-            if (exc == "S"):
-                pass
+            db.delete('protocolo')
         else:
             print("Opção inválida")
 
@@ -173,7 +159,7 @@ while (opcao := input(menu_principal)) != "9":
         db.drop_all_tables()
         time.sleep(1.5)
     elif opcao == "4":
-        cadastro()
+        inserir()
     elif opcao == "5":
         listar()
     elif opcao == "6":

@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import mysql.connector as conn
 from mysql.connector import errorcode
 import os
+import datetime as dt
 
 # Conexão com o banco de dados
 load_dotenv()
@@ -257,7 +258,35 @@ def insert_on_tables():
 
 # CRUD
 def insert(table_name):
-    pass
+    try:
+        cursor = mydb.cursor()
+        if table_name == 'usuario':
+            nome_insert = input("Nome: ")
+            senha_insert = input("Senha: ")
+            id_perfil_insert = input("Id Perfil: ")
+            query = [
+                f"INSERT INTO {table_name}(nome, senha, id_perfil) VALUES ('{nome_insert}', '{senha_insert}', '{id_perfil_insert}')"]
+        elif table_name == 'protocolo':
+            qtd_volumes = input("Quantidade Volumes: ")
+            id_usuario_responsavel = input("Id do usuário responsável: ")
+            id_situacao = input("Id Situação: ")
+            dt = dt.datetime.now()
+            dt_entrega = dt.replace(tzinfo=None)
+            id_pessoa_remetente = input("Id do remetente:")
+            id_pessoa_destinatario = input("Id do destinatário: ")
+            query = [f"INSERT INTO {table_name} (qtd_volumes, id_usuario_responsavel, id_situacao, dt_entrega, id_pessoa_remetente, id_pessoa_destinatario) VALUES ('{qtd_volumes}', '{id_usuario_responsavel}', '{id_situacao}', '{dt_entrega}', '{id_pessoa_remetente}', '{id_pessoa_destinatario}')"]
+        else:
+            documento = input("Documento: ")
+            query = [
+                f"INSERT INTO {table_name} (documento) VALUES ({documento})"]
+        sql = ''.join(query)
+        cursor.execute(sql)
+    except conn.Error as error:
+        print(error.msg)
+    else:
+        print("Atributo adicionado")
+        mydb.commit()
+        cursor.close()
 
 
 def read(table_name):
@@ -275,62 +304,102 @@ def read(table_name):
     cursor.close()
 
 
-def update():
-    pass
+def update(table_name):
+    try:
+        cursor = mydb.cursor()
+        atributo = input("Digite o atributo a ser alterado: ")
+        valor = input("Digite o valor a ser atribuido: ")
+        variavel = input("Digite a variavel: ")
+        variavel_valor = input("Digite o valor da variavel: ")
+        query = [
+            f"UPDATE {table_name} SET {atributo} = {valor} WHERE {variavel} = {variavel_valor}"]
+        sql = ''.join(query)
+        cursor.execute(sql)
+    except conn.Error as error:
+        print(error.msg)
+    else:
+        print("Atributo atualizado")
+        mydb.commit()
+        cursor.close()
 
 
-def delete():
-    pass
+def delete(table_name):
+    try:
+        cursor = mydb.cursor()
+        variavel = input("Digite a variavel: ")
+        variavel_valor = input("Digite o valor da variavel: ")
+        query = [
+            f"DELETE FROM {table_name} WHERE {variavel} = {variavel_valor}"]
+        sql = ''.join(query)
+        cursor.execute(sql)
+    except conn.Error as error:
+        print(error.msg)
+    else:
+        print("Atributo excluído")
+        mydb.commit()
+        cursor.close()
 
 
 # Consultas avançadas
-# Caso dê erro ao rodar as consultas avançadas, use SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); no Workbench.
+# Caso dê erro ao rodar as consultas avançadas, use SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); no Workbench
 def consulta_avancada1():
-    cursor = mydb.cursor()
-    select = """
-    select sum(pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, u.nome as RESPONSAVEL
-    FROM protocolo pt 
-    JOIN usuario u on pt.id_usuario_responsavel = u.id
-    join situacao s on pt.id_situacao = s.id
-    group by pt.id_usuario_responsavel;
-    """
-    cursor.execute(select)
-    myresult = cursor.fetchall()
-    print("Gera a soma de volumes por usuário responsável")
-    for x in myresult:
-        print(
-            f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
+    try:
+        cursor = mydb.cursor()
+        select = """
+        select sum(pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, u.nome as RESPONSAVEL
+        FROM protocolo pt 
+        JOIN usuario u on pt.id_usuario_responsavel = u.id
+        join situacao s on pt.id_situacao = s.id
+        group by pt.id_usuario_responsavel;
+        """
+        cursor.execute(select)
+    except conn.Error as error:
+        print(error.msg)
+    else:
+        myresult = cursor.fetchall()
+        print("Gera a soma de volumes por usuário responsável")
+        for x in myresult:
+            print(
+                f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
 
 
 def consulta_avancada2():
-    cursor = mydb.cursor()
-    select = """
-    select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
-    FROM protocolo pt 
-    join pessoas pd on pd.id= pt.id_pessoa_destinatario
-    join situacao s on pt.id_situacao = s.id
-    group by pt.id_pessoa_remetente;
-    """
-    cursor.execute(select)
-    myresult = cursor.fetchall()
-    print("Agrupa e soma os protocolos por destinatário")
-    for x in myresult:
-        print(
-            f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+    try:
+        cursor = mydb.cursor()
+        select = """
+        select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
+        FROM protocolo pt 
+        join pessoas pd on pd.id= pt.id_pessoa_destinatario
+        join situacao s on pt.id_situacao = s.id
+        group by pt.id_pessoa_remetente;
+        """
+        cursor.execute(select)
+    except conn.Error as error:
+        print(error.msg)
+    else:
+        myresult = cursor.fetchall()
+        print("Agrupa e soma os protocolos por destinatário")
+        for x in myresult:
+            print(
+                f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
 
 
 def consulta_avancada3():
-    cursor = mydb.cursor()
-    select = """
-    select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
-    FROM protocolo pt 
-    join pessoas pd on pd.id= pt.id_pessoa_destinatario
-    join situacao s on pt.id_situacao = s.id
-    group by s.id;
-    """
-    cursor.execute(select)
-    print("Agrupa os protocolos por situação")
-    myresult = cursor.fetchall()
-    for x in myresult:
-        print(
-            f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+    try:
+        cursor = mydb.cursor()
+        select = """
+        select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
+        FROM protocolo pt 
+        join pessoas pd on pd.id= pt.id_pessoa_destinatario
+        join situacao s on pt.id_situacao = s.id
+        group by s.id;
+        """
+        cursor.execute(select)
+    except conn.Error as error:
+        print(error.msg)
+    else:
+        myresult = cursor.fetchall()
+        print("Agrupa os protocolos por situação")
+        for x in myresult:
+            print(
+                f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
