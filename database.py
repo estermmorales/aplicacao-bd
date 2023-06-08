@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 import mysql.connector as conn
 from mysql.connector import errorcode
 import os
-import datetime as dt
+import datetime
+import pandas as pd
 
 # Conexão com o banco de dados
 load_dotenv()
@@ -270,7 +271,7 @@ def insert(table_name):
             qtd_volumes = input("Quantidade Volumes: ")
             id_usuario_responsavel = input("Id do usuário responsável: ")
             id_situacao = input("Id Situação: ")
-            dt = dt.datetime.now()
+            dt = datetime.datetime.now()
             dt_entrega = dt.replace(tzinfo=None)
             id_pessoa_remetente = input("Id do remetente:")
             id_pessoa_destinatario = input("Id do destinatário: ")
