@@ -1,5 +1,6 @@
-import database as db
 import time
+import database as db
+from database import mydb
 
 menu_principal = """
 ---------CENTRO DE DISTRIBUIÇÃO----------

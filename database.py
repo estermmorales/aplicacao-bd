@@ -1,9 +1,13 @@
+import os
 from dotenv import load_dotenv
 import mysql.connector as conn
 from mysql.connector import errorcode
-import os
 import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+
+warnings.filterwarnings('ignore')
 
 # Conexão com o banco de dados
 load_dotenv()
@@ -362,6 +366,9 @@ def consulta_avancada1():
         for x in myresult:
             print(
                 f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
+        df = pd.read_sql(select, con=mydb)
+        df.plot(kind="bar", x="VOLUMES")
+        plt.show()
 
 
 def consulta_avancada2():
@@ -383,6 +390,9 @@ def consulta_avancada2():
         for x in myresult:
             print(
                 f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+        df = pd.read_sql(select, con=mydb)
+        df.plot(kind="bar")
+        plt.show()
 
 
 def consulta_avancada3():
@@ -404,3 +414,6 @@ def consulta_avancada3():
         for x in myresult:
             print(
                 f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
+        df = pd.read_sql(select, con=mydb)
+        df.plot(kind="bar")
+        plt.show()
