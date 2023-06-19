@@ -367,7 +367,7 @@ def consulta_avancada1():
             print(
                 f"VOLUMES: {x[0]}  |  ENTREGA: {x[1]}  | SITUACAO: {x[2]} |  RESPONSAVEL: {x[3]}")
         df = pd.read_sql(select, con=mydb)
-        df.plot(kind="bar", x="VOLUMES")
+        df.plot(kind="barh", y="VOLUMES", x="RESPONSAVEL")
         plt.show()
 
 
@@ -375,7 +375,7 @@ def consulta_avancada2():
     try:
         cursor = mydb.cursor()
         select = """
-        select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO
+        select count(pt.id) as REGISTROS, sum( pt.qtd_volumes) as VOLUMES, pt.dt_entrega as ENTREGA, s.nome as SITUACAO, pd.nome as DESTINATARIO
         FROM protocolo pt 
         join pessoas pd on pd.id= pt.id_pessoa_destinatario
         join situacao s on pt.id_situacao = s.id
@@ -391,7 +391,7 @@ def consulta_avancada2():
             print(
                 f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
         df = pd.read_sql(select, con=mydb)
-        df.plot(kind="bar")
+        df.plot(kind="barh", y="REGISTROS", x="DESTINATARIO")
         plt.show()
 
 
@@ -415,5 +415,5 @@ def consulta_avancada3():
             print(
                 f"REGISTROS: {x[0]}  |  VOLUMES: {x[1]}  | ENTREGA: {x[2]} |  SITUACAO: {x[3]}")
         df = pd.read_sql(select, con=mydb)
-        df.plot(kind="bar")
+        df.plot(kind="barh", y="REGISTROS", x="SITUACAO")
         plt.show()
