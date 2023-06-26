@@ -64,19 +64,26 @@ CREATE TABLE `loja` (
   UNIQUE KEY `documento` (`documento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 """
-tables['perfil'] = """
-CREATE TABLE `perfil` (
-  `id` int(11) NOT NULL,
-  `id_permissao` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-"""
 tables['permissoes'] = """
 CREATE TABLE `permissoes` (
   `id` int(11) NOT NULL,
   `Nome` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+"""
+tables['perfil'] = """
+CREATE TABLE `perfil` (
+  `id` INT(11) NOT NULL,
+  `id_permissao` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id_permissao_idx` (`id_permissao` ASC) VISIBLE,
+  CONSTRAINT `id_permissao`
+    FOREIGN KEY (`id_permissao`)
+    REFERENCES `permissoes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 """
 tables['pessoas'] = """
 CREATE TABLE `pessoas` (
@@ -174,14 +181,14 @@ inserts = {
         INSERT INTO `loja` VALUES (400000000002,2),(400000000003,3),(400000000004,4),(400000000005,5),(400000000006,6),(400000000007,7),(400000000008,8),(400000000009,9),(400000000010,10);
         """
     ),
-    'perfil': (
-        """
-        INSERT INTO `perfil` VALUES (1,10),(2,20),(3,30),(4,40);
-        """
-    ),
     'permissoes': (
         """
         INSERT INTO `permissoes` VALUES (10,'Gerente'),(20,'Estagiáro'),(30,'Funcionário'),(40,'Visitante');
+        """
+    ),
+    'perfil': (
+        """
+        INSERT INTO `perfil` VALUES (1,10),(2,20),(3,30),(4,40);
         """
     ),
     'pessoas': (
@@ -312,12 +319,12 @@ def read(table_name):
 def update(table_name):
     try:
         cursor = mydb.cursor()
-        atributo = input("Digite o atributo a ser alterado: ")
+        atributo = input("Digite o atributo: ")
         valor = input("Digite o valor a ser atribuido: ")
-        variavel = input("Digite a variavel: ")
-        variavel_valor = input("Digite o valor da variavel: ")
+        condicao = input("Digite a condição: ")
+        condicao_valor = input("Digite o valor da condição: ")
         query = [
-            f"UPDATE {table_name} SET {atributo} = {valor} WHERE {variavel} = {variavel_valor}"]
+            f"UPDATE {table_name} SET {atributo} = {valor} WHERE {condicao} = {condicao_valor}"]
         sql = ''.join(query)
         cursor.execute(sql)
     except conn.Error as error:
@@ -331,10 +338,10 @@ def update(table_name):
 def delete(table_name):
     try:
         cursor = mydb.cursor()
-        variavel = input("Digite a variavel: ")
-        variavel_valor = input("Digite o valor da variavel: ")
+        condicao = input("Digite a condição: ")
+        condicao_valor = input("Digite o valor da condição: ")
         query = [
-            f"DELETE FROM {table_name} WHERE {variavel} = {variavel_valor}"]
+            f"DELETE FROM {table_name} WHERE {condicao} = {condicao_valor}"]
         sql = ''.join(query)
         cursor.execute(sql)
     except conn.Error as error:

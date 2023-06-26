@@ -161,13 +161,18 @@ while (opcao := input(menu_principal)) != "9":
         time.sleep(1.5)
     elif opcao == "4":
         inserir()
+        time.sleep(1.5)
     elif opcao == "5":
         listar()
+        time.sleep(1.5)
     elif opcao == "6":
         atualizar()
+        time.sleep(1.5)
     elif opcao == "7":
         excluir()
+        time.sleep(1.5)
     elif opcao == "8":
         consultas_avançadas()
+        time.sleep(1.5)
     else:
         print("Opção inválida")
